@@ -1,0 +1,36 @@
+/* Custom CSS */
+
+#sidebar {
+    color: black;
+    /* Black text color for menu items */
+}
+
+#sidebar .sidebar-heading {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 24px;
+    color: black;
+    /* Black text color for logo */
+}
+
+#sidebar .list-group-item {
+    background-color: transparent;
+    /* Transparent background for menu items */
+    border: none;
+    /* No border */
+}
+
+#sidebar .list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Darken on hover */
+}
+
+/* Affix styles */
+.affix {
+    top: 0;
+    width: 18%;
+}
+
+.affix+.container-fluid {
+    padding-left: 20%;
+}

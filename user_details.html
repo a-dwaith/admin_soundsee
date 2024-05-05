@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-2 bg-light">
+                <div class="sidebar-sticky">
+                    <h1 class="sidebar-heading">SoundSee</h1>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="home_page.html">Home</a>
+                        </li>
+                        <!-- <li class="list-group-item"> -->
+                            <!-- <a href="#">Update Profile</a> -->
+                        <!-- </li> -->
+                        <li class="list-group-item">
+                            <a href="user_details.html">User Details</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="index.html">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- User details -->
+            <div class="col-md-10">
+                <h1 class="mt-5 mb-3">User Details</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>UDID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile Number</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userDetailsBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!-- JavaScript -->
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+        const supabaseUrl = 'https://ksebigkerxwbktkugqdl.supabase.co';
+        const supabaseKey =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzZWJpZ2tlcnh3Ymt0a3VncWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQyMTI3MTksImV4cCI6MjAyOTc4ODcxOX0.nfxSiHwATmFPHt0wqKrim2dLfcSxYh_jRu6Wcf8gefE';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        async function fetchUserDetails() {
+            try {
+                const { data, error } = await supabase
+                    .from('user_data')
+                    .select('udid, name, email_id, mobile_no')
+                    .eq('status', true);
+
+                if (error) {
+                    throw error;
+                }
+
+                const userDetailsBody = document.getElementById('userDetailsBody');
+                userDetailsBody.innerHTML = ''; // Clear previous content
+
+                if (data && data.length > 0) {
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.udid}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email_id}</td>
+                            <td>${user.mobile_no}</td>
+                        `;
+                        userDetailsBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="4">No user details found</td>';
+                    userDetailsBody.appendChild(row);
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchUserDetails);
+    </script>
+</body>
+
+</html>
