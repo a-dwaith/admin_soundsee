@@ -12,7 +12,7 @@ async function fetchUserRequests() {
         .order('udid');
 
     if (error) {
-        console.error('Error fetching user requests:', error.message);
+        alert('Error fetching user requests: ' + error.message);
         return;
     }
 
@@ -74,16 +74,16 @@ async function handleAccept(user) {
         .eq('udid', user.udid);
 
     if (error) {
-        console.error('Error accepting request:', error.message);
+        alert('Error accepting request: ' + error.message);
     } else {
-        console.log('Request accepted successfully.');
+        alert('Request accepted successfully.');
         fetchUserRequests(); // Refresh the user requests after accepting
     }
 }
 
 // Function to handle Accepted button click
 async function handleAccepted(user) {
-    console.log('User is already accepted.');
+    alert('User is already accepted.');
 }
 
 // Function to handle Reject button click
@@ -94,9 +94,9 @@ async function handleReject(user) {
         .eq('udid', user.udid);
 
     if (error) {
-        console.error('Error rejecting request:', error.message);
+        alert('Error rejecting request: ' + error.message);
     } else {
-        console.log('Request rejected successfully.');
+        alert('Request rejected successfully.');
         fetchUserRequests(); // Refresh the user requests after rejecting
     }
 }
